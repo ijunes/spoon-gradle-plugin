@@ -89,6 +89,12 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** The codeCoverage option to calculate code coverage. */
   boolean codeCoverage;
 
+  /** The shard option to specify whether to shard tests or not. */
+  boolean shard;
+
+  /** Execute the tests device by device */
+  boolean sequential
+
   @TaskAction
   void runSpoon() {
     LOG.info("Run instrumentation tests $instrumentationApk for app $applicationApk")
@@ -130,6 +136,8 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
         .setCodeCoverage(codeCoverage)
+        .setShard(shard)
+        .setSequential(sequential)
 
     def instrumentationArgs = this.instrumentationArgs
     if (instrumentationArgs == null) {

@@ -17,7 +17,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.1.0'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.0'
   }
 }
 
@@ -33,6 +33,9 @@ spoon {
 
   // To run a single method in TestCase
   methodName = 'testMyApp'
+
+  // To execute the tests device by device */
+  sequential = true
 }
 ```
 
@@ -48,7 +51,7 @@ Generated reports are available at `build/spoon/${TEST_VARIANT}` folder.
 For making screenshots add `spoon-client` dependency to your tests compile configuration:
 ```groovy
 dependencies {
-  androidTestCompile 'com.squareup.spoon:spoon-client:1.5.0'
+  androidTestCompile 'com.squareup.spoon:spoon-client:1.5.4'
 }
 ```
 
@@ -94,6 +97,13 @@ spoon {
   shardIndex = 0
 }
 ```
+If you are specifying sharding for multiple devices, you may use spoon's built in auto-sharding by specifying:
+```groovy
+spoon {
+  shard = true
+}
+```
+This will automatically shard across all specified serials, and merge the results.
 
 Custom instrumentation arguments
 --------------------------------
@@ -112,6 +122,7 @@ spoon {
   codeCoverage = true
 }
 ```
+This option requires your app to have the `WRITE_EXTERNAL_STORAGE` permission.
 
 Known issues
 ------------
@@ -120,7 +131,7 @@ If you have troubles with running Android Lint after this plugin is applied, try
 buildscript {
   // ...
   dependencies {
-    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.1.0') {
+    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.2.0') {
       exclude module: 'guava'
     }
     classpath 'com.google.guava:guava:17.0'
